@@ -3,6 +3,7 @@
 
 #include <string>
 #include <cstddef>
+#include <cstdint>
 
 namespace GL {
 	
@@ -31,6 +32,7 @@ namespace GL {
 			std::size_t width,
 			std::size_t height,
 			std::size_t channels,
+			const std::uint8_t* pixels = nullptr,
 			Filter filter = NEAREST,
 			Edge edge = REPEAT
 		);

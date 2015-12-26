@@ -86,6 +86,7 @@ Texture::Texture(
 	std::size_t width,
 	std::size_t height,
 	std::size_t channels,
+	const std::uint8_t* pixels,
 	Filter filter,
 	Edge edge
 )
@@ -104,9 +105,10 @@ Texture::Texture(
 	GLint previous = 0;
 	glGetIntegerv(GL_TEXTURE_BINDING_2D, &previous);
 	glBindTexture(GL_TEXTURE_2D, ID);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glTexImage2D(
 		GL_TEXTURE_2D, 0, format[channels - 1], width, height,
-		0, format[channels - 1], GL_UNSIGNED_BYTE, nullptr
+		0, format[channels - 1], GL_UNSIGNED_BYTE, pixels
 	);
 	std::size_t f = static_cast<std::size_t>(filter);
 	std::size_t e = static_cast<std::size_t>(edge);
