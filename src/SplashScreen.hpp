@@ -27,6 +27,7 @@ private:
 	
 	Transform2D loading;
 	float loading_width;
+	int count;
 	
 };
 

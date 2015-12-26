@@ -72,10 +72,39 @@ void SplashScreen::onInit()
 		glm::vec4(0.2, 0.1, 0.8, 1.0)
 	);
 	
+	count = 0;
+	
 }
 
 void SplashScreen::onRender()
 {
+	
+	Texture::Filter filter = Texture::TRILINEAR;
+	
+	// Load next resource
+	switch (count) {
+	case 0: break;
+	case 1:  resources.font   .load("assets/sprites/font.png",    filter, Texture::CLAMP); break;
+	case 2:  resources.planets.load("assets/sprites/planets.png", filter, Texture::CLAMP); break;
+	case 3:  resources.thrust .load("assets/sprites/thrust.png",  filter, Texture::CLAMP); break;
+	case 4:  resources.ship   .load("assets/sprites/ship.png",    filter, Texture::CLAMP); break;
+	case 5:  resources.sat    .load("assets/sprites/sat.png",     filter, Texture::CLAMP); break;
+	case 6:  resources.space_back1.load("assets/space/back1.png", filter, Texture::CLAMP); break;
+	case 7:  resources.space_back2.load("assets/space/back2.png", filter, Texture::CLAMP); break;
+	case 8:  resources.space_dust1.load("assets/space/dust1.png", filter, Texture::CLAMP); break;
+	case 9:  resources.space_dust2.load("assets/space/dust2.png", filter, Texture::CLAMP); break;
+	case 10: resources.space_dust3.load("assets/space/dust3.png", filter, Texture::CLAMP); break;
+	case 11: resources.space_dust4.load("assets/space/dust4.png", filter, Texture::CLAMP); break;
+	default:
+		quit();
+		return;
+	}
+	
+	// Set progress
+	float progress = count++ / 12.f;
+	loading.setSize(progress * loading_width, loading.getSize().y);
+	obj_bar->matrix = loading.getMatrix();
+	
 	// Clear and bind screen
 	screen->bind(true);
 	
