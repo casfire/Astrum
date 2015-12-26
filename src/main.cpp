@@ -1,6 +1,8 @@
 #include "SDL/SDL.h"
 #include <exception>
 
+#include "GL/GL.hpp"
+
 int main(int, char**) {
 	
 	try {
