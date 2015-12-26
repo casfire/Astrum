@@ -5,11 +5,19 @@
 #include "System/System.hpp"
 #include "Render/Render.hpp"
 
+#include "Resources.hpp"
+#include "SplashScreen.hpp"
+#include "GameScreen.hpp"
+
 int main(int, char**) {
 	
 	try {
 		
-		// TODO
+		Window window("Astrum", false);
+		Resources resources;
+		
+		SplashScreen(window, resources).run();
+		GameScreen(window, resources).run();
 		
 		return 0;
 		
