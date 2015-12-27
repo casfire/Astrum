@@ -17,8 +17,8 @@ public:
 	void onInit() override;
 	void onRender() override;
 	
-	//void onPress(glm::vec2 pos) override;
-	//void onRelease(glm::vec2 pos) override;
+	void onPress(glm::vec2 pos) override;
+	void onRelease(glm::vec2 pos) override;
 	
 private:
 	
@@ -26,6 +26,7 @@ private:
 	
 	Camera2D cameraGUI;
 	TextField textFPS;
+	Button button[3][3];
 	
 	Timer timer;
 	

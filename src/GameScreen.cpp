@@ -38,10 +38,39 @@ void GameScreen::onInit()
 	// Texture bindings
 	resources.white->bind(0);
 	resources.font->bind(1);
+	resources.gui->bind(2);
 	
 	// Initialization
 	timer.restart();
 	
+	// Buttons
+	for (int x = 0; x < 3; x++) {
+		for (int y = 0; y < 3; y++) {
+			button[x][y].setSize(190, 45);
+			button[x][y].setStyle(static_cast<Button::Style>(x));
+			button[x][y].setPosition(200 + x * 250, 200 + y * 100);
+		}
+	}
+}
+
+void GameScreen::onPress(glm::vec2 pos)
+{
+	glm::vec2 gui = cameraGUI.toWorld(pos);
+	for (int x = 0; x < 3; x++) {
+		for (int y = 0; y < 3; y++) {
+			if (button[x][y].isInside(gui)) button[x][y].setPressed(true);
+		}
+	}
+}
+
+void GameScreen::onRelease(glm::vec2 pos)
+{
+	(void) pos;
+	for (int x = 0; x < 3; x++) {
+		for (int y = 0; y < 3; y++) {
+			button[x][y].setPressed(false);
+		}
+	}
 }
 
 void GameScreen::onRender()
@@ -58,5 +87,21 @@ void GameScreen::onRender()
 		1,
 		glm::vec4(1, .1, .2, 1)
 	);
+	
+	for (int x = 0; x < 3; x++) {
+		for (int y = 0; y < 3; y++) {
+			glm::vec4 color;
+			if (x == 0) color = glm::vec4(0.5, 0.5, 1,   1);
+			if (x == 1) color = glm::vec4(0.5, 0.8, 0.5, 1);
+			if (x == 2) color = glm::vec4(1,   0.5, 0.5, 1);
+			button[x][y].render(
+				cameraGUI,
+				resources.ambient.get(),
+				resources.quad.get(),
+				2,
+				color
+			);
+		}
+	}
 	
 }
