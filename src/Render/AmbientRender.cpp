@@ -5,11 +5,8 @@
 using namespace GL;
 using namespace Render;
 
-AmbientRender::AmbientRender(
-	const Camera2D& camera
-)
-: camera(camera)
-, program("assets/ambient")
+AmbientRender::AmbientRender()
+: program("assets/ambient")
 {
 	aPosition       = program.getAttribute("aPosition");
 	aTexCoord       = program.getAttribute("aTexCoord");
@@ -20,6 +17,7 @@ AmbientRender::AmbientRender(
 }
 
 void AmbientRender::render(
+	const Camera2D&  camera,
 	const Mesh&      mesh,
 	const Attribute& position,
 	const Attribute& texcoord,
@@ -84,6 +82,7 @@ void AmbientRender::render(
 }
 
 void AmbientRender::render(
+	const Camera2D&  camera,
 	const Quad&      quad,
 	const unsigned&  texture,
 	const glm::mat3& matrix,
@@ -91,6 +90,7 @@ void AmbientRender::render(
 	const glm::vec4& rect
 ) const {
 	render(
+		camera,
 		quad.mesh,
 		quad.position,
 		quad.texcoord,
@@ -102,9 +102,11 @@ void AmbientRender::render(
 }
 
 void AmbientRender::render(
+	const Camera2D&      camera,
 	const AmbientObject& object
 ) const {
 	render(
+		camera,
 		object.mesh,
 		object.position,
 		object.texcoord,

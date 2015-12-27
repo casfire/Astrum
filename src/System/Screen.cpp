@@ -2,9 +2,11 @@
 #include "../SDL/SDL.h"
 
 using namespace System;
+using namespace GL;
 
 Screen::Screen(const Window& window)
-: window(window)
+: Viewport(window.getSize().x, window.getSize().y)
+, window(window)
 , loop(false)
 {}
 

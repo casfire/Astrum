@@ -18,23 +18,18 @@ void SplashScreen::onInit()
 	StencilState::disable();
 	ClearState(0, 0, 0, 1).enable();
 	
-	// Load basic resources
+	// Load resources
 	std::uint8_t white[] = {0xFF, 0xFF, 0xFF, 0xFF};
 	resources.quad.load();
-	resources.ambient.load(resources.camera);
+	resources.ambient.load();
 	resources.white.load(1, 1, 4, white, Texture::NEAREST, Texture::REPEAT);
-	
-	// Set camera view
-	glm::vec2 size = window.getSize();
-	resources.camera.setSize(size);
-	resources.camera.setCenter(0, 0);
-	resources.camera.setRotation(0);
-	
-	// Load splash texture
 	splash.load("assets/splash.png", Texture::BILINEAR, Texture::CLAMP);
 	
-	// Create screen viewport
-	screen.load(size.x, size.y);
+	// Set camera
+	glm::vec2 size = window.getSize();
+	camera.setSize(size);
+	camera.setCenter(0, 0);
+	camera.setRotation(0);
 	
 	// Texture bindings
 	resources.white->bind(0);
@@ -72,6 +67,7 @@ void SplashScreen::onInit()
 		glm::vec4(0.2, 0.1, 0.8, 1.0)
 	);
 	
+	// Initialization
 	count = 0;
 	
 }
@@ -106,15 +102,15 @@ void SplashScreen::onRender()
 	obj_bar->matrix = loading.getMatrix();
 	
 	// Clear and bind screen
-	screen->bind(true);
+	bind(true);
 	
 	// Draw background
-	resources.ambient->render(obj_background.get());
+	resources.ambient->render(camera, obj_background.get());
 	
 	// Draw loading bar border
-	resources.ambient->render(obj_border.get());
+	resources.ambient->render(camera, obj_border.get());
 	
 	// Draw loading bar
-	resources.ambient->render(obj_bar.get());
+	resources.ambient->render(camera, obj_bar.get());
 	
 }

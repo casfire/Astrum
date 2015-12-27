@@ -3,10 +3,11 @@
 
 #include "Window.hpp"
 #include "../glm/vec2.hpp"
+#include "../GL/Viewport.hpp"
 
 namespace System {
 	
-	class Screen {
+	class Screen : public GL::Viewport {
 	public:
 		
 		Screen(const Window& window);

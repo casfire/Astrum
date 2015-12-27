@@ -19,12 +19,13 @@ public:
 private:
 	
 	Resources& resources;
+	
 	Resource<Texture> splash;
-	Resource<Viewport> screen;
 	Resource<AmbientObject> obj_background;
 	Resource<AmbientObject> obj_border;
 	Resource<AmbientObject> obj_bar;
 	
+	Camera2D camera;
 	Transform2D loading;
 	float loading_width;
 	int count;

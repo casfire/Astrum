@@ -22,7 +22,6 @@ public:
 private:
 	
 	Resources& resources;
-	Resource<Viewport> screen;
 	Timer timer;
 	
 };

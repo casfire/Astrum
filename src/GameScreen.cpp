@@ -23,10 +23,6 @@ void GameScreen::onInit()
 		BlendState::ADD
 	).enable();
 	
-	// Create screen viewport
-	glm::vec2 size = window.getSize();
-	screen.load(size.x, size.y);
-	
 	timer.restart();
 }
 
@@ -34,6 +30,6 @@ void GameScreen::onRender()
 {
 	//double time = timer.restart();
 	
-	screen->bind(true);
+	bind(true);
 	
 }

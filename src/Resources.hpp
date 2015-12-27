@@ -8,7 +8,6 @@
 struct Resources {
 	
 	// Basic resources
-	Camera2D                camera;
 	Resource<Quad>          quad;
 	Resource<AmbientRender> ambient;
 	Resource<Texture>       white;

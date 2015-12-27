@@ -12,11 +12,10 @@ namespace Render {
 	class AmbientRender {
 	public:
 		
-		AmbientRender(
-			const Camera2D& camera
-		);
+		AmbientRender();
 		
 		void render(
+			const Camera2D&  camera,
 			const Mesh&      mesh,
 			const Attribute& position,
 			const Attribute& texcoord,
@@ -27,6 +26,7 @@ namespace Render {
 		) const;
 		
 		void render(
+			const Camera2D&  camera,
 			const Quad&      quad,
 			const unsigned&  texture,
 			const glm::mat3& matrix = glm::mat3(1),
@@ -35,12 +35,12 @@ namespace Render {
 		) const;
 		
 		void render(
+			const Camera2D&      camera,
 			const AmbientObject& object
 		) const;
 		
 	private:
 		
-		const Camera2D& camera;
 		Program program;
 		
 		int aPosition;
