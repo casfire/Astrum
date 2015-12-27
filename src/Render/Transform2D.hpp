@@ -42,7 +42,7 @@ namespace Render {
 		float rotation;
 		
 		mutable glm::mat3 matrix;
-		mutable bool changed;
+		mutable bool valid;
 		
 	};
 	

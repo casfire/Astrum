@@ -13,7 +13,7 @@ Transform2D::Transform2D(
 , origin(origin)
 , size(size)
 , rotation(rotation)
-, changed(true)
+, valid(false)
 {}
 
 Transform2D::Transform2D(const Transform2D& t)
@@ -22,7 +22,7 @@ Transform2D::Transform2D(const Transform2D& t)
 , size(t.size)
 , rotation(t.rotation)
 , matrix(t.matrix)
-, changed(t.changed)
+, valid(t.valid)
 {}
 
 glm::vec2 Transform2D::getPosition() const
@@ -48,61 +48,61 @@ float Transform2D::getRotation() const
 void Transform2D::setRotation(float rot)
 {
 	rotation = rot;
-	changed = true;
+	valid = false;
 }
 
 void Transform2D::setPosition(glm::vec2 pos)
 {
 	position = pos;
-	changed = true;
+	valid = false;
 }
 
 void Transform2D::setPosition(float x, float y)
 {
 	position = glm::vec2(x, y);
-	changed = true;
+	valid = false;
 }
 
 void Transform2D::setSize(glm::vec2 size)
 {
 	this->size = size;
-	changed = true;
+	valid = false;
 }
 
 void Transform2D::setSize(float x, float y)
 {
 	size = glm::vec2(x, y);
-	changed = true;
+	valid = false;
 }
 
 void Transform2D::setOrigin(glm::vec2 origin)
 {
 	this->origin = origin;
-	changed = true;
+	valid = false;
 }
 
 void Transform2D::setOrigin(float x, float y)
 {
 	origin = glm::vec2(x, y);
-	changed = true;
+	valid = false;
 }
 
 void Transform2D::setOriginN(glm::vec2 origin)
 {
 	this->origin = origin * size;
-	changed = true;
+	valid = false;
 }
 
 void Transform2D::setOriginN(float x, float y)
 {
 	origin = glm::vec2(x, y) * size;
-	changed = true;
+	valid = false;
 }
 
 const glm::mat3& Transform2D::getMatrix() const
 {
-	if (!changed) return matrix;
-	changed = false;
+	/*if (valid) return matrix;
+	valid = true;
 	float c = std::cos(rotation);
 	float s = std::sin(rotation);
 	float sx = 0.5 * size.x;
@@ -131,5 +131,19 @@ const glm::mat3& Transform2D::getMatrix() const
 		0,  1,  0,
 		ox, oy, 1
 	);
-	return matrix = matTranslate * matRotation * matOrigin * matScale;
+	return matrix = matTranslate * matRotation * matOrigin * matScale;*/
+	
+	if (valid) return matrix;
+	valid = true;
+	float c = 0.5 * std::cos(rotation);
+	float s = 0.5 * std::sin(rotation);
+	glm::vec2 p = size - origin * glm::vec2(2.0);
+	return matrix = glm::mat3(
+		+ size.x * c, size.x * s, 0,
+		- size.y * s, size.y * c, 0,
+		c * p.x - s * p.y + position.x,
+		s * p.x + c * p.y + position.y,
+		1
+	);
+	
 }

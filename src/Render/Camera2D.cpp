@@ -11,7 +11,7 @@ Camera2D::Camera2D(
 : center(center)
 , size(size)
 , rotation(rotation)
-, changed(true)
+, valid(false)
 {}
 
 Camera2D::Camera2D(const Camera2D& camera)
@@ -19,7 +19,7 @@ Camera2D::Camera2D(const Camera2D& camera)
 , size(camera.size)
 , rotation(camera.rotation)
 , matrix(camera.matrix)
-, changed(camera.changed)
+, valid(camera.valid)
 {}
 
 glm::vec2 Camera2D::getCenter() const
@@ -40,31 +40,31 @@ float Camera2D::getRotation() const
 void Camera2D::setRotation(float rot)
 {
 	rotation = rot;
-	changed = true;
+	valid = false;
 }
 
 void Camera2D::setCenter(glm::vec2 center)
 {
 	this->center = center;
-	changed = true;
+	valid = false;
 }
 
 void Camera2D::setCenter(float x, float y)
 {
 	center = glm::vec2(x, y);
-	changed = true;
+	valid = false;
 }
 
 void Camera2D::setSize(glm::vec2 size)
 {
 	this->size = size;
-	changed = true;
+	valid = false;
 }
 
 void Camera2D::setSize(float x, float y)
 {
 	size = glm::vec2(x, y);
-	changed = true;
+	valid = false;
 }
 
 glm::vec2 Camera2D::toWorld(glm::vec2 screen) const
@@ -78,15 +78,21 @@ glm::vec2 Camera2D::toWorld(glm::vec2 screen) const
 	);
 }
 
-/*glm::vec2 Camera2D::toScreen(glm::vec2 world) const
+glm::vec2 Camera2D::toScreen(glm::vec2 world) const
 {
-	
-}*/
+	float c = std::cos(-rotation);
+	float s = std::sin(-rotation);
+	world = glm::vec2(
+		world.x * c - world.y * s,
+		world.y * c + world.x * s
+	);
+	return glm::vec2(0.5) * ((size + world - center) / size);
+}
 
 const glm::mat3& Camera2D::getMatrix() const
 {
-	if (!changed) return matrix;
-	changed = false;
+	/*if (valid) return matrix;
+	valid = true;
 	float c = std::cos(-rotation);
 	float s = std::sin(-rotation);
 	float sx = + 1.0 / (0.5 * size.x);
@@ -108,5 +114,18 @@ const glm::mat3& Camera2D::getMatrix() const
 		0,  1,  0,
 		px, py, 1
 	);
-	return matrix = matScale * matRotation * matTranslate;
+	return matrix = matScale * matRotation * matTranslate;*/
+	
+	if (valid) return matrix;
+	valid = true;
+	float c = 2.0 * std::cos(-rotation);
+	float s = 2.0 * std::sin(-rotation);
+	return matrix = glm::mat3(
+		+ c / size.x, - s / size.y, 0,
+		- s / size.x, - c / size.y, 0,
+		(s * center.y - c * center.x) / size.x,
+		(c * center.y + s * center.x) / size.y,
+		1
+	);
+	
 }
