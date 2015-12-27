@@ -26,6 +26,9 @@ namespace Render {
 		void setCenter  (float x, float y);
 		void setSize    (float x, float y);
 		
+		glm::vec2 toWorld(glm::vec2 screen) const;
+		//glm::vec2 toScreen(glm::vec2 world) const;
+		
 		const glm::mat3& getMatrix() const;
 		
 	private:

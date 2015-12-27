@@ -67,6 +67,22 @@ void Camera2D::setSize(float x, float y)
 	changed = true;
 }
 
+glm::vec2 Camera2D::toWorld(glm::vec2 screen) const
+{
+	float c = std::cos(rotation);
+	float s = std::sin(rotation);
+	screen = center + size * (screen - glm::vec2(0.5));
+	return glm::vec2(
+		screen.x * c - screen.y * s,
+		screen.y * c + screen.x * s
+	);
+}
+
+/*glm::vec2 Camera2D::toScreen(glm::vec2 world) const
+{
+	
+}*/
+
 const glm::mat3& Camera2D::getMatrix() const
 {
 	if (!changed) return matrix;
