@@ -4,6 +4,7 @@
 #include "GL/GL.hpp"
 #include "System/System.hpp"
 #include "Resources.hpp"
+#include "gui/gui.hpp"
 
 class GameScreen : public Screen {
 public:
@@ -22,6 +23,10 @@ public:
 private:
 	
 	Resources& resources;
+	
+	Camera2D cameraGUI;
+	TextField textFPS;
+	
 	Timer timer;
 	
 };

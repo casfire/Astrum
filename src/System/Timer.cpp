@@ -1,4 +1,6 @@
 #include "Timer.hpp"
+#include <sstream>
+#include <iomanip>
 
 using namespace System;
 
@@ -29,11 +31,20 @@ double Timer::restart()
 	double elapsed = std::chrono::duration<double>(
 		(time = std::chrono::high_resolution_clock::now()) - last
 	).count();
-	mFPS = mFPS * mSmooth + ((elapsed > 0) ? (1.0 / elapsed) : 0.0) * (1.0 - mSmooth);
+	if (elapsed > 0) {
+		mFPS = mFPS * mSmooth + (1.0 / elapsed) * (1.0 - mSmooth);
+	}
 	return elapsed;
 }
 
 double Timer::fps() const
 {
 	return mFPS;
+}
+
+std::string Timer::fpsString(int precision) const
+{
+	std::stringstream ss;
+	ss << std::fixed << std::setprecision(precision) << mFPS;
+	return ss.str();
 }

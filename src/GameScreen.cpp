@@ -23,13 +23,40 @@ void GameScreen::onInit()
 		BlendState::ADD
 	).enable();
 	
+	// Set GUI camera
+	glm::vec2 size = window.getSize();
+	cameraGUI.setSize(size);
+	cameraGUI.setCenter(size / glm::vec2(2, 2));
+	cameraGUI.setRotation(0);
+	
+	// Set FPS 
+	timer.setSmoothing(0.9);
+	textFPS.setPosition(4, size.y - 18);
+	textFPS.setSize(size.x, 16);
+	window.setVsync(false);
+	
+	// Texture bindings
+	resources.white->bind(0);
+	resources.font->bind(1);
+	
+	// Initialization
 	timer.restart();
+	
 }
 
 void GameScreen::onRender()
 {
-	//double time = timer.restart();
+	timer.restart();
+	
+	textFPS.setText(std::string("FPS: ") + timer.fpsString(3));
 	
 	bind(true);
+	textFPS.render(
+		cameraGUI,
+		resources.ambient.get(),
+		resources.quad.get(),
+		1,
+		glm::vec4(1, .1, .2, 1)
+	);
 	
 }

@@ -2,6 +2,7 @@
 #define _TIMER_
 
 #include <chrono>
+#include <string>
 
 namespace System {
 	
@@ -15,6 +16,7 @@ namespace System {
 		double elapsed() const;
 		double restart();
 		double fps() const;
+		std::string fpsString(int precision = 2) const;
 		
 	private:
 		
