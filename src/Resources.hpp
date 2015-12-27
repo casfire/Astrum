@@ -14,6 +14,7 @@ struct Resources {
 	
 	// Textures
 	Resource<Texture> font;
+	Resource<Texture> gui;
 	Resource<Texture> planets;
 	Resource<Texture> thrust;
 	Resource<Texture> ship;
