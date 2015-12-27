@@ -113,3 +113,8 @@ void Window::display() const
 {
 	SDL_GL_SwapWindow(const_cast<SDL_Window*>(window));
 }
+
+void Window::setVsync(float enabled) const
+{
+	SDL_GL_SetSwapInterval(enabled ? 1 : 0);
+}

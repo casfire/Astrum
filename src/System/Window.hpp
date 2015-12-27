@@ -22,6 +22,7 @@ namespace System {
 		glm::vec2 normalize(int x, int y) const;
 		
 		void display() const;
+		void setVsync(float enabled) const;
 		
 		~Window();
 		
