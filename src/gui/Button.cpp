@@ -1,4 +1,6 @@
 #include "Button.hpp"
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 using namespace gui;
 
@@ -55,13 +57,18 @@ void Button::render(
 	glm::ivec4 irect = pressed ? buttonPressed[s] : buttonReleased[s];
 	
 	Transform2D matrix(*this);
-	glm::vec2 position = getPosition();
-	glm::vec2 size = getSize();
 	
 	if (pressed) {
-		matrix.setPosition(position + glm::vec2(0, size.y * 4 / 45));
-	} else {
-		matrix.setSize(size + glm::vec2(0, size.y * 4 / 45));
+		glm::vec2 size = getSize();
+		float rotation = getRotation() + M_PI_2;
+		float length = size.y * (4.f / 49.f);
+		matrix.setPosition(
+			getPosition() + glm::vec2(
+				std::cos(rotation) * length,
+				std::sin(rotation) * length
+			)
+		);
+		matrix.setSize(size - glm::vec2(0, length));
 	}
 	
 	ambient.render(

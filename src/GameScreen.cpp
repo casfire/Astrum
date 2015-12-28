@@ -46,9 +46,10 @@ void GameScreen::onInit()
 	// Buttons
 	for (int x = 0; x < 3; x++) {
 		for (int y = 0; y < 3; y++) {
-			button[x][y].setSize(190, 45);
-			button[x][y].setStyle(static_cast<Button::Style>(x));
+			button[x][y].setSize(190, 49);
+			button[x][y].setStyle(static_cast<Button::Style>(y));
 			button[x][y].setPosition(200 + x * 250, 200 + y * 100);
+			button[x][y].setRotation(rand() % 255 / 255.f * 6);
 		}
 	}
 }
