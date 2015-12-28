@@ -13,7 +13,7 @@ int main(int, char**) {
 	
 	try {
 		
-		Window window("Astrum", false);
+		Window window("Astrum", false, 8);
 		Resources resources;
 		
 		SplashScreen(window, resources).run();

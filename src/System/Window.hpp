@@ -11,7 +11,8 @@ namespace System {
 		
 		Window(
 			const char* title,
-			bool fullscreen
+			bool fullscreen,
+			int samples = 0
 		);
 		
 		int getHeight() const;

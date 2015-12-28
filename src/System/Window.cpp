@@ -8,7 +8,8 @@ using namespace GL;
 
 Window::Window(
 	const char* title,
-	bool fullscreen
+	bool fullscreen,
+	int samples
 ) {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		throw GL_EXCEPTION(SDL_GetError());
@@ -27,6 +28,16 @@ Window::Window(
 	SDL_GL_SetAttribute(
 		SDL_GL_CONTEXT_MINOR_VERSION,
 		0
+	);
+	
+	SDL_GL_SetAttribute(
+		SDL_GL_MULTISAMPLEBUFFERS,
+		samples <= 0 ? 0 : 1
+	);
+	
+	SDL_GL_SetAttribute(
+		SDL_GL_MULTISAMPLESAMPLES,
+		samples <= 0 ? 0 : samples
 	);
 	
 	if (fullscreen) {
