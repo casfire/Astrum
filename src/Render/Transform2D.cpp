@@ -16,7 +16,9 @@ Transform2D::Transform2D(
 , valid(false)
 {}
 
-Transform2D::Transform2D(const Transform2D& t)
+Transform2D::Transform2D(
+	const Transform2D& t
+)
 : position(t.position)
 , origin(t.origin)
 , size(t.size)
@@ -25,35 +27,26 @@ Transform2D::Transform2D(const Transform2D& t)
 , valid(t.valid)
 {}
 
+// Position
+
 glm::vec2 Transform2D::getPosition() const
 {
 	return position;
 }
 
-glm::vec2 Transform2D::getOrigin() const
+float Transform2D::getPositionX() const
 {
-	return origin;
+	return position.x;
 }
 
-glm::vec2 Transform2D::getSize() const
+float Transform2D::getPositionY() const
 {
-	return size;
+	return position.y;
 }
 
-float Transform2D::getRotation() const
+void Transform2D::setPosition(glm::vec2 position)
 {
-	return rotation;
-}
-
-void Transform2D::setRotation(float rot)
-{
-	rotation = rot;
-	valid = false;
-}
-
-void Transform2D::setPosition(glm::vec2 pos)
-{
-	position = pos;
+	this->position = position;
 	valid = false;
 }
 
@@ -61,6 +54,76 @@ void Transform2D::setPosition(float x, float y)
 {
 	position = glm::vec2(x, y);
 	valid = false;
+}
+
+void Transform2D::setPositionX(float x)
+{
+	position.x = x;
+	valid = false;
+}
+
+void Transform2D::setPositionY(float y)
+{
+	position.y = y;
+	valid = false;
+}
+
+// Origin
+
+glm::vec2 Transform2D::getOrigin() const
+{
+	return origin;
+}
+
+float Transform2D::getOriginX() const
+{
+	return origin.x;
+}
+
+float Transform2D::getOriginY() const
+{
+	return origin.y;
+}
+
+void Transform2D::setOrigin(glm::vec2 origin)
+{
+	this->origin = origin;
+	valid = false;
+}
+
+void Transform2D::setOrigin(float x, float y)
+{
+	this->origin = glm::vec2(x, y);
+	valid = false;
+}
+
+void Transform2D::setOriginX(float x)
+{
+	origin.x = x;
+	valid = false;
+}
+
+void Transform2D::setOriginY(float y)
+{
+	origin.y = y;
+	valid = false;
+}
+
+// Size
+
+glm::vec2 Transform2D::getSize() const
+{
+	return size;
+}
+
+float Transform2D::getSizeX() const
+{
+	return size.x;
+}
+
+float Transform2D::getSizeY() const
+{
+	return size.y;
 }
 
 void Transform2D::setSize(glm::vec2 size)
@@ -75,60 +138,37 @@ void Transform2D::setSize(float x, float y)
 	valid = false;
 }
 
-void Transform2D::setOrigin(glm::vec2 origin)
+void Transform2D::setSizeX(float x)
 {
-	this->origin = origin;
+	size.x = x;
 	valid = false;
 }
 
-void Transform2D::setOrigin(float x, float y)
+void Transform2D::setSizeY(float y)
 {
-	origin = glm::vec2(x, y);
+	size.y = y;
 	valid = false;
 }
 
-void Transform2D::setOriginN(glm::vec2 origin)
+// Rotation
+
+float Transform2D::getRotation() const
 {
-	this->origin = origin * size;
+	return rotation;
+}
+
+void Transform2D::setRotation(float rotation)
+{
+	this->rotation = rotation;
 	valid = false;
 }
 
-void Transform2D::setOriginN(float x, float y)
-{
-	origin = glm::vec2(x, y) * size;
-	valid = false;
-}
-
-bool Transform2D::isInside(glm::vec2 p) const
-{
-	/*glm::vec3 a = getMatrix() * glm::vec3(-1, +1, 1);
-	glm::vec3 b = getMatrix() * glm::vec3(+1, +1, 1);
-	glm::vec3 d = getMatrix() * glm::vec3(-1, -1, 1);
-	glm::vec2 AM = glm::vec2(a.x - p.x, a.y - p.y);
-	glm::vec2 AB = glm::vec2(a.x - b.x, a.y - b.y);
-	glm::vec2 AD = glm::vec2(a.x - d.x, a.y - d.y);
-	float AMAB = AM.x * AB.x + AM.y * AB.y;
-	float AMAD = AM.x * AD.x + AM.y * AD.y;
-	float ABAB = AB.x * AB.x + AB.y * AB.y;
-	float ADAD = AD.x * AD.x + AD.y * AD.y;
-	if (AMAB < 0 || AMAB > ABAB) return false;
-	if (AMAD < 0 || AMAD > ADAD) return false;
-	return true;*/
-
-	float c = std::cos(rotation);
-	float s = std::sin(rotation);
-	float e = c*c + s*s, t;
-	p -= position;
-	t = origin.x * e + c * p.x + s * p.y;
-	if (t < 0 || t > size.x * e) return false;
-	t = (size.y - origin.y) * e + c * (origin.x - origin.x * s - p.y) + s * p.x;
-	if (t < 0 || t > size.y * e) return false;
-	return true;
-}
+// Miscellaneous
 
 const glm::mat3& Transform2D::getMatrix() const
 {
-	/*if (valid) return matrix;
+	/*
+	if (valid) return matrix;
 	valid = true;
 	float c = std::cos(rotation);
 	float s = std::sin(rotation);
@@ -158,8 +198,8 @@ const glm::mat3& Transform2D::getMatrix() const
 		0,  1,  0,
 		ox, oy, 1
 	);
-	return matrix = matTranslate * matRotation * matOrigin * matScale;*/
-	
+	return matrix = matTranslate * matRotation * matOrigin * matScale;
+	*/
 	if (valid) return matrix;
 	valid = true;
 	float c = 0.5 * std::cos(rotation);
@@ -172,5 +212,42 @@ const glm::mat3& Transform2D::getMatrix() const
 		s * p.x + c * p.y + position.y,
 		1
 	);
-	
+}
+
+bool Transform2D::isInside(glm::vec2 point) const
+{
+	/*
+	glm::vec3 a = getMatrix() * glm::vec3(-1, +1, 1);
+	glm::vec3 b = getMatrix() * glm::vec3(+1, +1, 1);
+	glm::vec3 d = getMatrix() * glm::vec3(-1, -1, 1);
+	glm::vec2 AM = glm::vec2(a.x - point.x, a.y - point.y);
+	glm::vec2 AB = glm::vec2(a.x - b.x, a.y - b.y);
+	glm::vec2 AD = glm::vec2(a.x - d.x, a.y - d.y);
+	float AMAB = AM.x * AB.x + AM.y * AB.y;
+	float AMAD = AM.x * AD.x + AM.y * AD.y;
+	float ABAB = AB.x * AB.x + AB.y * AB.y;
+	float ADAD = AD.x * AD.x + AD.y * AD.y;
+	if (AMAB < 0 || AMAB > ABAB) return false;
+	if (AMAD < 0 || AMAD > ADAD) return false;
+	return true;
+	*/
+	float c = std::cos(rotation);
+	float s = std::sin(rotation);
+	float e = c*c + s*s, t;
+	point -= position;
+	t = origin.x * e + c * point.x + s * point.y;
+	if (t < 0 || t > size.x * e) return false;
+	t = (size.y - origin.y) * e + c * (origin.x - origin.x * s - point.y) + s * point.x;
+	if (t < 0 || t > size.y * e) return false;
+	return true;
+}
+
+void Transform2D::setTransform(const Transform2D& t)
+{
+	position = t.position;
+	origin = t.origin;
+	size = t.size;
+	rotation = t.rotation;
+	matrix = t.matrix;
+	valid = t.valid;
 }

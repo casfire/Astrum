@@ -9,41 +9,59 @@ namespace Render {
 	class Transform2D {
 	public:
 		
+		typedef glm::vec2 vec2;
+		typedef glm::mat3 mat3;
+		
 		Transform2D(const Transform2D& t);
 		Transform2D(
-			glm::vec2 position = glm::vec2(0),
-			glm::vec2 origin   = glm::vec2(1),
-			glm::vec2 size     = glm::vec2(2),
-			float rotation     = 0
+			vec2  position = vec2(0),
+			vec2  origin   = vec2(1),
+			vec2  size     = vec2(2),
+			float rotation = 0
 		);
 		
-		// Getters
-		glm::vec2 getPosition() const;
-		glm::vec2 getOrigin() const;
-		glm::vec2 getSize() const;
-		float getRotation() const;
-		
-		// Setters
-		void setRotation (float rot);
-		void setPosition (glm::vec2 pos);
-		void setSize     (glm::vec2 size);
-		void setOrigin   (glm::vec2 origin);
-		void setOriginN  (glm::vec2 origin);
+		// Position
+		vec2  getPosition () const;
+		float getPositionX() const;
+		float getPositionY() const;
+		void setPosition (vec2 position);
 		void setPosition (float x, float y);
-		void setSize     (float x, float y);
-		void setOrigin   (float x, float y);
-		void setOriginN  (float x, float y);
+		void setPositionX(float x);
+		void setPositionY(float y);
 		
-		bool isInside(glm::vec2 point) const;
+		// Origin
+		vec2  getOrigin () const;
+		float getOriginX() const;
+		float getOriginY() const;
+		void setOrigin (vec2 origin);
+		void setOrigin (float x, float y);
+		void setOriginX(float x);
+		void setOriginY(float y);
 		
-		const glm::mat3& getMatrix() const;
+		// Size
+		vec2  getSize () const;
+		float getSizeX() const;
+		float getSizeY() const;
+		void setSize (vec2 size);
+		void setSize (float x, float y);
+		void setSizeX(float x);
+		void setSizeY(float y);
+		
+		// Rotation
+		float getRotation() const;
+		void  setRotation(float rotation);
+		
+		// Miscellaneous
+		const mat3& getMatrix() const;
+		bool isInside(vec2 point) const;
+		void setTransform(const Transform2D& t);
 		
 	private:
 		
-		glm::vec2 position, origin, size;
+		vec2 position, origin, size;
 		float rotation;
 		
-		mutable glm::mat3 matrix;
+		mutable mat3 matrix;
 		mutable bool valid;
 		
 	};

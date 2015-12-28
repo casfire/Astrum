@@ -48,7 +48,7 @@ void SplashScreen::onInit()
 	
 	// Loading bar border
 	loading.setSize(size * glm::vec2(0.9, 0.05));
-	loading.setOriginN(0.5, 0.5);
+	loading.setOrigin(loading.getSize() * 0.5f);
 	loading.setPosition(0, size.y * 0.25);
 	obj_border.load(
 		resources.quad.get(),
@@ -58,7 +58,7 @@ void SplashScreen::onInit()
 	
 	// Loading bar
 	loading.setSize(loading.getSize() - glm::vec2(2));
-	loading.setOriginN(0.5, 0.5);
+	loading.setOrigin(loading.getSize() * 0.5f);
 	loading_width = loading.getSize().x;
 	obj_bar.load(
 		resources.quad.get(),
