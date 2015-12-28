@@ -9,34 +9,52 @@ namespace Render {
 	class Camera2D {
 	public:
 		
+		typedef glm::vec2 vec2;
+		typedef glm::mat3 mat3;
+		
 		Camera2D(const Camera2D& camera);
 		Camera2D(
-			glm::vec2 center = glm::vec2(0, 0),
-			glm::vec2 size   = glm::vec2(2, 2),
-			float rotation   = 0
+			vec2  center   = vec2(0),
+			vec2  size     = vec2(2),
+			float rotation = 0
 		);
 		
-		glm::vec2 getCenter() const;
-		glm::vec2 getSize() const;
+		// Center
+		vec2  getCenter () const;
+		float getCenterX() const;
+		float getCenterY() const;
+		void setCenter (vec2 center);
+		void setCenter (float x, float y);
+		void setCenterX(float x);
+		void setCenterY(float y);
+		
+		// Size
+		vec2  getSize () const;
+		float getSizeX() const;
+		float getSizeY() const;
+		void setSize (vec2 size);
+		void setSize (float x, float y);
+		void setSizeX(float x);
+		void setSizeY(float y);
+		
+		// Rotation
 		float getRotation() const;
+		void setRotation(float rotation);
 		
-		void setRotation(float rot);
-		void setCenter  (glm::vec2 center);
-		void setSize    (glm::vec2 size);
-		void setCenter  (float x, float y);
-		void setSize    (float x, float y);
+		// Point translation
+		vec2 toWorld (vec2 screen) const;
+		vec2 toScreen(vec2 world ) const;
 		
-		glm::vec2 toWorld(glm::vec2 screen) const;
-		glm::vec2 toScreen(glm::vec2 world) const;
-		
-		const glm::mat3& getMatrix() const;
+		// Miscellaneous
+		const mat3& getMatrix() const;
+		void setCamera(const Camera2D& camera);
 		
 	private:
 		
-		glm::vec2 center, size;
+		vec2 center, size;
 		float rotation;
 		
-		mutable glm::mat3 matrix;
+		mutable mat3 matrix;
 		mutable bool valid;
 		
 	};
