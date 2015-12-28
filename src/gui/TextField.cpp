@@ -112,22 +112,47 @@ static Glyph glyphs[96] = {
 };
 
 TextField::TextField(
-	const std::string& txt,
-	bool fill
+	const std::string& text,
+	const glm::vec4& color,
+	Align alignX,
+	Align alignY
 )
-: filled(fill)
+: color(color)
+, alignX(alignX)
+, alignY(alignY)
 {
-	setText(txt);
+	setText(text);
 }
-		
-void TextField::setText(const std::string& txt)
+
+void TextField::setText(const std::string& text)
 {
-	text = txt;
-	width = 0;
+	this->text = text;
+	this->width = 0;
 	for (char c : text) {
 		std::size_t i = (c < 32) ? ('?' - 32) : (c - 32);
-		width += glyphs[i].advance;
+		this->width += glyphs[i].advance;
 	}
+}
+
+void TextField::setColor(const glm::vec4& color)
+{
+	this->color = color;
+}
+
+void TextField::setAlign(Align x, Align y)
+{
+	this->alignX = x;
+	this->alignY = y;
+}
+
+void TextField::setAlignX(Align x)
+{
+	this->alignX = x;
+}
+
+void TextField::setAlignY(Align y)
+{
+	this->alignY = y;
 }
 
 const std::string& TextField::getText() const
@@ -135,60 +160,55 @@ const std::string& TextField::getText() const
 	return text;
 }
 
-void TextField::setFill(bool enabled)
+glm::vec4 TextField::getColor() const
 {
-	filled = enabled;
+	return color;
 }
 
-float TextField::getTextWidth() const
+TextField::Align TextField::getAlignX() const
 {
-	return width;
+	return alignX;
 }
 
-float TextField::getTextHeight() const
+TextField::Align TextField::getAlignY() const
 {
-	return GlyphBase;
-}
-
-glm::vec2 TextField::getTextSize() const
-{
-	return glm::vec2(width, GlyphBase);
+	return alignY;
 }
 
 void TextField::render(
-	const Camera2D& camera,
+	const Camera2D&      camera,
 	const AmbientRender& ambient,
-	const Quad& quad,
-	unsigned texture,
-	glm::vec4 color
+	const Quad&          quad,
+	const unsigned&      texture
 ) const {
 	
-	Transform2D matrix(*this);
+	const float width  = this->width;
+	const float height = GlyphBase;
 	
-	glm::vec2 pos(0, 0);
-	glm::vec2 scale = getSize() / getTextSize();
-	if (!filled) {
-		if (scale.x > scale.y) {
-			scale.x = scale.y;
-		} else {
-			scale.y = scale.x;
-			pos.y = (getSize().y - getTextHeight() * scale.y) * 0.5;
-		}
+	Transform2D letter(*this);
+	glm::vec2 pos   = glm::vec2(0);
+	glm::vec2 scale = getSize() / glm::vec2(width, height);
+	if (scale.x > scale.y) {
+		scale.x = scale.y;
+		pos.x = (getSize().x - width * scale.x) * static_cast<int>(alignX) / 2.f;
+	} else {
+		scale.y = scale.x;
+		pos.y = (getSize().y - height * scale.y) * static_cast<int>(alignY) / 2.f;
 	}
 	
 	for (char c : text) {
 		
 		const Glyph& g = glyphs[(c < 32) ? ('?' - 32) : (c - 32)];
 		
-		matrix.setSize(glm::vec2(g.w, g.h) * scale);
-		matrix.setOrigin(getOrigin() - pos - glm::vec2(g.xOff, g.yOff) * scale);
+		letter.setSize(glm::vec2(g.w, g.h) * scale);
+		letter.setOrigin(getOrigin() - pos - glm::vec2(g.xOff, g.yOff) * scale);
 		pos.x += g.advance * scale.x;
 		
 		ambient.render(
 			camera,
 			quad,
 			texture,
-			matrix.getMatrix(),
+			letter,
 			color,
 			glm::vec4(
 				g.x / GlyphTextureW,

@@ -4,16 +4,16 @@
 #include "../GL/GL.hpp"
 #include "../glm/vec4.hpp"
 #include "../glm/mat3x3.hpp"
+#include "Transform2D.hpp"
 
 namespace Render {
 	
-	struct AmbientObject {
+	struct AmbientObject : public Transform2D {
 		
 		Mesh      mesh;
 		Attribute position;
 		Attribute texcoord;
 		unsigned  texture;
-		glm::mat3 matrix;
 		glm::vec4 color;
 		glm::vec4 rect;
 		
@@ -22,7 +22,6 @@ namespace Render {
 			const Attribute& position,
 			const Attribute& texcoord,
 			const unsigned&  texture,
-			const glm::mat3& matrix = glm::mat3(1),
 			const glm::vec4& color  = glm::vec4(1),
 			const glm::vec4& rect   = glm::vec4(0, 0, 1, 1)
 		);
@@ -30,7 +29,6 @@ namespace Render {
 		AmbientObject(
 			const Quad&      quad,
 			const unsigned&  texture,
-			const glm::mat3& matrix = glm::mat3(1),
 			const glm::vec4& color  = glm::vec4(1),
 			const glm::vec4& rect   = glm::vec4(0, 0, 1, 1)
 		);

@@ -17,19 +17,19 @@ AmbientRender::AmbientRender()
 }
 
 void AmbientRender::render(
-	const Camera2D&  camera,
-	const Mesh&      mesh,
-	const Attribute& position,
-	const Attribute& texcoord,
-	const unsigned&  texture,
-	const glm::mat3& matrix,
-	const glm::vec4& color,
-	const glm::vec4& rect
+	const Camera2D&    camera,
+	const Mesh&        mesh,
+	const Attribute&   position,
+	const Attribute&   texcoord,
+	const unsigned&    texture,
+	const Transform2D& object,
+	const glm::vec4&   color,
+	const glm::vec4&   rect
 ) const {
 	
 	glUseProgram(program.ID);
 	
-	glm::mat3 mat = camera.getMatrix() * matrix;
+	glm::mat3 matrix = camera.getMatrix() * object.getMatrix();
 	
 	glUniform1i(
 		uTextureDiffuse,
@@ -52,7 +52,7 @@ void AmbientRender::render(
 		uMatrix,
 		1,
 		GL_FALSE,
-		glm::value_ptr(mat)
+		glm::value_ptr(matrix)
 	);
 	
 	glBindBuffer(GL_ARRAY_BUFFER, position.buffer);
@@ -82,12 +82,12 @@ void AmbientRender::render(
 }
 
 void AmbientRender::render(
-	const Camera2D&  camera,
-	const Quad&      quad,
-	const unsigned&  texture,
-	const glm::mat3& matrix,
-	const glm::vec4& color,
-	const glm::vec4& rect
+	const Camera2D&    camera,
+	const Quad&        quad,
+	const unsigned&    texture,
+	const Transform2D& object,
+	const glm::vec4&   color,
+	const glm::vec4&   rect
 ) const {
 	render(
 		camera,
@@ -95,7 +95,7 @@ void AmbientRender::render(
 		quad.position,
 		quad.texcoord,
 		texture,
-		matrix,
+		object,
 		color,
 		rect
 	);
@@ -111,7 +111,7 @@ void AmbientRender::render(
 		object.position,
 		object.texcoord,
 		object.texture,
-		object.matrix,
+		object,
 		object.color,
 		object.rect
 	);

@@ -24,11 +24,12 @@ private:
 	
 	Resources& resources;
 	
+	Timer timer;
+	
 	Camera2D cameraGUI;
 	TextField textFPS;
-	Button button[3][3];
 	
-	Timer timer;
+	Button button[3][3];
 	
 };
 

@@ -7,7 +7,6 @@ AmbientObject::AmbientObject(
 	const Attribute& position,
 	const Attribute& texcoord,
 	const unsigned&  texture,
-	const glm::mat3& matrix,
 	const glm::vec4& color,
 	const glm::vec4& rect
 )
@@ -15,7 +14,6 @@ AmbientObject::AmbientObject(
 , position(position)
 , texcoord(texcoord)
 , texture(texture)
-, matrix(matrix)
 , color(color)
 , rect(rect)
 {}
@@ -23,7 +21,6 @@ AmbientObject::AmbientObject(
 AmbientObject::AmbientObject(
 	const Quad&      quad,
 	const unsigned&  texture,
-	const glm::mat3& matrix,
 	const glm::vec4& color,
 	const glm::vec4& rect
 )
@@ -31,7 +28,6 @@ AmbientObject::AmbientObject(
 , position(quad.position)
 , texcoord(quad.texcoord)
 , texture(texture)
-, matrix(matrix)
 , color(color)
 , rect(rect)
 {}

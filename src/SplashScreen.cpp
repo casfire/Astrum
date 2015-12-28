@@ -36,36 +36,21 @@ void SplashScreen::onInit()
 	splash->bind(1);
 	
 	// Background
-	obj_background.load(
-		resources.quad.get(),
-		1,
-		Transform2D(
-			glm::vec2(0),
-			glm::vec2(size * 0.5f),
-			glm::vec2(size)
-		).getMatrix()
-	);
+	obj_background.load(resources.quad.get(), 1);
+	obj_background->setSize(size);
+	obj_background->setOrigin(size * 0.5f);
 	
 	// Loading bar border
-	loading.setSize(size * glm::vec2(0.9, 0.05));
-	loading.setOrigin(loading.getSize() * 0.5f);
-	loading.setPosition(0, size.y * 0.25);
-	obj_border.load(
-		resources.quad.get(),
-		0,
-		loading.getMatrix()
-	);
+	obj_border.load(resources.quad.get(), 0);
+	obj_border->setSize(size * glm::vec2(0.9, 0.05));
+	obj_border->setOrigin(obj_border->getSize() * 0.5f);
+	obj_border->setPosition(0, size.y * 0.25);
 	
 	// Loading bar
-	loading.setSize(loading.getSize() - glm::vec2(2));
-	loading.setOrigin(loading.getSize() * 0.5f);
-	loading_width = loading.getSize().x;
-	obj_bar.load(
-		resources.quad.get(),
-		0,
-		loading.getMatrix(),
-		glm::vec4(0.2, 0.1, 0.8, 1.0)
-	);
+	obj_bar.load(resources.quad.get(), 0, glm::vec4(0.2, 0.1, 0.8, 1.0));
+	obj_bar->setSize(obj_border->getSize() - glm::vec2(2));
+	obj_bar->setOrigin(obj_bar->getSize() * 0.5f);
+	obj_bar->setPosition(0, size.y * 0.25);
 	
 	// Initialization
 	count = 0;
@@ -75,9 +60,8 @@ void SplashScreen::onInit()
 void SplashScreen::onRender()
 {
 	
-	Texture::Filter filter = Texture::TRILINEAR;
-	
 	// Load next resource
+	Texture::Filter filter = Texture::TRILINEAR;
 	switch (count) {
 	case 0: break;
 	case 1:  resources.font   .load("assets/sprites/font.png",    filter, Texture::CLAMP); break;
@@ -99,8 +83,7 @@ void SplashScreen::onRender()
 	
 	// Set progress
 	float progress = count++ / 13.f;
-	loading.setSize(progress * loading_width, loading.getSize().y);
-	obj_bar->matrix = loading.getMatrix();
+	obj_bar->setSizeX(progress * (obj_border->getSizeX() - 2));
 	
 	// Clear and bind screen
 	bind(true);

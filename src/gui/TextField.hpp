@@ -9,33 +9,44 @@ namespace gui {
 	class TextField : public Transform2D {
 	public:
 		
+		enum Align {
+			MIN = 0,
+			MID = 1,
+			MAX = 2,
+		};
+		
 		TextField(
-			const std::string& txt = "",
-			bool fill = false
+			const std::string& text = "",
+			const glm::vec4& color = glm::vec4(1),
+			Align alignX = MID,
+			Align alignY = MID
 		);
 		
-		void setText(const std::string& txt);
+		void setText  (const std::string& text);
+		void setColor (const glm::vec4& color);
+		void setAlign (Align x, Align y);
+		void setAlignX(Align x);
+		void setAlignY(Align y);
+		
 		const std::string& getText() const;
-		
-		void setFill(bool enabled);
-		
-		float getTextWidth() const;
-		float getTextHeight() const;
-		glm::vec2 getTextSize() const;
+		glm::vec4 getColor() const;
+		Align getAlignX() const;
+		Align getAlignY() const;
 		
 		void render(
-			const Camera2D& camera,
+			const Camera2D&      camera,
 			const AmbientRender& ambient,
-			const Quad& quad,
-			unsigned texture,
-			glm::vec4 color = glm::vec4(1)
+			const Quad&          quad,
+			const unsigned&      texture
 		) const;
 		
 	private:
 		
 		std::string text;
+		glm::vec4 color;
 		float width;
-		bool filled;
+		Align alignX;
+		Align alignY;
 		
 	};
 	

@@ -10,7 +10,6 @@ GameScreen::GameScreen(
 
 void GameScreen::onInit()
 {
-	
 	// Set states
 	CullState::disable();
 	DepthState::disable();
@@ -31,8 +30,10 @@ void GameScreen::onInit()
 	
 	// Set FPS 
 	timer.setSmoothing(0.9);
+	textFPS.setColor(glm::vec4(1, .1, .2, 1));
 	textFPS.setPosition(4, size.y - 18);
 	textFPS.setSize(size.x, 16);
+	textFPS.setAlignX(TextField::MIN);
 	window.setVsync(false);
 	
 	// Texture bindings
@@ -44,22 +45,23 @@ void GameScreen::onInit()
 	timer.restart();
 	
 	// Buttons
-	for (int x = 0; x < 3; x++) {
-		for (int y = 0; y < 3; y++) {
-			button[x][y].setSize(190, 49);
-			button[x][y].setStyle(static_cast<Button::Style>(y));
-			button[x][y].setPosition(200 + x * 250, 200 + y * 100);
-			button[x][y].setRotation(rand() % 255 / 255.f * 6);
-		}
+	for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) {
+		button[x][y].setSize(190, 49);
+		button[x][y].setStyle(static_cast<Button::Style>(y));
+		button[x][y].setPosition(200 + x * 250, 200 + y * 100);
+		button[x][y].setRotation(rand() % 800 / 400.f - 1.f);
+		if (x == 0) button[x][y].setColor(glm::vec4(0.5, 0.5, 1.0, 1));
+		if (x == 1) button[x][y].setColor(glm::vec4(0.5, 0.8, 0.5, 1));
+		if (x == 2) button[x][y].setColor(glm::vec4(1.0, 0.5, 0.5, 1));
 	}
 }
 
 void GameScreen::onPress(glm::vec2 pos)
 {
 	glm::vec2 gui = cameraGUI.toWorld(pos);
-	for (int x = 0; x < 3; x++) {
-		for (int y = 0; y < 3; y++) {
-			if (button[x][y].isInside(gui)) button[x][y].setPressed(true);
+	for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) {
+		if (button[x][y].isInside(gui)) {
+			button[x][y].setPressed(true);
 		}
 	}
 }
@@ -67,10 +69,8 @@ void GameScreen::onPress(glm::vec2 pos)
 void GameScreen::onRelease(glm::vec2 pos)
 {
 	(void) pos;
-	for (int x = 0; x < 3; x++) {
-		for (int y = 0; y < 3; y++) {
-			button[x][y].setPressed(false);
-		}
+	for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) {
+		button[x][y].setPressed(false);
 	}
 }
 
@@ -78,31 +78,26 @@ void GameScreen::onRender()
 {
 	timer.restart();
 	
-	textFPS.setText(std::string("FPS: ") + timer.fpsString(3));
-	
+	// Clear and bind screen
 	bind(true);
+	
+	// Render FPS counter
+	textFPS.setText(std::string("FPS: ") + timer.fpsString(3));
 	textFPS.render(
 		cameraGUI,
 		resources.ambient.get(),
 		resources.quad.get(),
-		1,
-		glm::vec4(1, .1, .2, 1)
+		1
 	);
 	
-	for (int x = 0; x < 3; x++) {
-		for (int y = 0; y < 3; y++) {
-			glm::vec4 color;
-			if (x == 0) color = glm::vec4(0.5, 0.5, 1,   1);
-			if (x == 1) color = glm::vec4(0.5, 0.8, 0.5, 1);
-			if (x == 2) color = glm::vec4(1,   0.5, 0.5, 1);
-			button[x][y].render(
-				cameraGUI,
-				resources.ambient.get(),
-				resources.quad.get(),
-				2,
-				color
-			);
-		}
+	// Render buttons
+	for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) {
+		button[x][y].render(
+			cameraGUI,
+			resources.ambient.get(),
+			resources.quad.get(),
+			2
+		);
 	}
 	
 }

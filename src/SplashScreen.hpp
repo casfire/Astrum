@@ -26,8 +26,6 @@ private:
 	Resource<AmbientObject> obj_bar;
 	
 	Camera2D camera;
-	Transform2D loading;
-	float loading_width;
 	int count;
 	
 };

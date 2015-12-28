@@ -4,34 +4,25 @@
 
 using namespace gui;
 
-/*static glm::ivec4 buttonRects[] = {
-	glm::ivec4(0, 0,   195, 49),
-	glm::ivec4(0, 49,  191, 49),
-	glm::ivec4(0, 98,  190, 45),
-	glm::ivec4(0, 143, 190, 45),
-	glm::ivec4(0, 188, 190, 49),
-	glm::ivec4(0, 237, 190, 49),
-	glm::ivec4(0, 286, 190, 45),
-	glm::ivec4(0, 331, 190, 49),
-	glm::ivec4(0, 384, 190, 49),
-};*/
-
-static glm::vec2 guiSize = glm::vec2(512, 512);
-
-static glm::ivec4 buttonPressed[] = {
+static glm::vec2 GUITextureSize = glm::vec2(512, 512);
+static glm::ivec4 BPressed[] = {
 	glm::ivec4(0, 98,  190, 45),
 	glm::ivec4(0, 143, 190, 45),
 	glm::ivec4(0, 286, 190, 45),
 };
-
-static glm::ivec4 buttonReleased[] = {
+static glm::ivec4 BReleased[] = {
 	glm::ivec4(0, 188, 190, 49),
 	glm::ivec4(0, 237, 190, 49),
 	glm::ivec4(0, 331, 190, 49),
 };
 
-Button::Button(Style style, bool pressed)
-: style(style)
+Button::Button(
+	const glm::vec4& color,
+	Style style,
+	bool pressed
+)
+: color(color)
+, style(style)
 , pressed(pressed)
 {}
 
@@ -45,43 +36,62 @@ void Button::setPressed(bool pressed)
 	this->pressed = pressed;
 }
 
+void Button::setColor(const glm::vec4& color)
+{
+	this->color = color;
+}
+
+Button::Style Button::getStyle() const
+{
+	return style;
+}
+
+bool Button::isPressed() const
+{
+	return pressed;
+}
+
+glm::vec4 Button::getColor() const
+{
+	return color;
+}
+
 void Button::render(
-	const Camera2D& camera,
+	const Camera2D&      camera,
 	const AmbientRender& ambient,
-	const Quad& quad,
-	unsigned texture,
-	glm::vec4 color
+	const Quad&          quad,
+	const unsigned&      texture
 ) const {
 	
 	std::size_t s = static_cast<std::size_t>(style);
-	glm::ivec4 irect = pressed ? buttonPressed[s] : buttonReleased[s];
+	glm::ivec4 irect = pressed ? BPressed[s] : BReleased[s];
 	
-	Transform2D matrix(*this);
+	Transform2D object(*this);
 	
 	if (pressed) {
-		glm::vec2 size = getSize();
+		float sizeY = getSizeY();
 		float rotation = getRotation() + M_PI_2;
-		float length = size.y * (4.f / 49.f);
-		matrix.setPosition(
+		float length = sizeY * (4.f / 49.f);
+		object.setPosition(
 			getPosition() + glm::vec2(
 				std::cos(rotation) * length,
 				std::sin(rotation) * length
 			)
 		);
-		matrix.setSize(size - glm::vec2(0, length));
+		object.setSizeY(sizeY - length);
 	}
 	
 	ambient.render(
 		camera,
 		quad,
 		texture,
-		matrix.getMatrix(),
+		object,
 		color,
 		glm::vec4(
-			irect.x / guiSize.x,
-			irect.y / guiSize.y,
-			(irect.x + irect.z) / guiSize.x,
-			(irect.y + irect.w) / guiSize.y
+			irect.x / GUITextureSize.x,
+			irect.y / GUITextureSize.y,
+			(irect.x + irect.z) / GUITextureSize.x,
+			(irect.y + irect.w) / GUITextureSize.y
 		)
 	);
 	
