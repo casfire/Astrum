@@ -29,7 +29,7 @@ void GameScreen::onInit()
 	cameraGUI.setRotation(0);
 	
 	// Set FPS 
-	timer.setSmoothing(0.9);
+	timer.setSmoothing(0.99);
 	textFPS.setColor(glm::vec4(1, .1, .2, 1));
 	textFPS.setPosition(4, size.y - 18);
 	textFPS.setSize(size.x, 16);

@@ -21,7 +21,7 @@ namespace System {
 	private:
 		
 		std::chrono::high_resolution_clock::time_point time;
-		double mFPS, mSmooth;
+		double mFPS, mSmooth, mCount;
 		
 	};
 	

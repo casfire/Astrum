@@ -9,6 +9,7 @@ Timer::Timer(double smooth)
 	time = std::chrono::high_resolution_clock::now();
 	mSmooth = smooth;
 	mFPS = 0;
+	mCount = 1;
 }
 
 void Timer::setSmoothing(double smooth)
@@ -32,7 +33,10 @@ double Timer::restart()
 		(time = std::chrono::high_resolution_clock::now()) - last
 	).count();
 	if (elapsed > 0) {
-		mFPS = mFPS * mSmooth + (1.0 / elapsed) * (1.0 - mSmooth);
+		mFPS = mFPS * mSmooth + (mCount / elapsed) * (1.0 - mSmooth);
+		mCount = 1.0;
+	} else {
+		mCount++;
 	}
 	return elapsed;
 }
