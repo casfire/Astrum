@@ -43,15 +43,6 @@ void Button::setPressed(bool pressed)
 	this->pressed = pressed;
 }
 
-bool Button::isInside(glm::vec2 point) const
-{
-	glm::vec2 a = getPosition();
-	glm::vec2 b = a + getSize();
-	if (point.x < a.x || point.x > b.x) return false;
-	if (point.y < a.y || point.y > b.y) return false;
-	return true;
-}
-
 void Button::render(
 	const Camera2D& camera,
 	const AmbientRender& ambient,

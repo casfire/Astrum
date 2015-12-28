@@ -30,8 +30,6 @@ namespace gui {
 			glm::vec4 color = glm::vec4(1)
 		) const;
 		
-		bool isInside(glm::vec2 point) const;
-		
 	private:
 		
 		Style style;

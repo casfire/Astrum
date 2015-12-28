@@ -34,6 +34,8 @@ namespace Render {
 		void setOrigin   (float x, float y);
 		void setOriginN  (float x, float y);
 		
+		bool isInside(glm::vec2 point) const;
+		
 		const glm::mat3& getMatrix() const;
 		
 	private:

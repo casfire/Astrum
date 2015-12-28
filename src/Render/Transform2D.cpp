@@ -99,6 +99,33 @@ void Transform2D::setOriginN(float x, float y)
 	valid = false;
 }
 
+bool Transform2D::isInside(glm::vec2 p) const
+{
+	/*glm::vec3 a = getMatrix() * glm::vec3(-1, +1, 1);
+	glm::vec3 b = getMatrix() * glm::vec3(+1, +1, 1);
+	glm::vec3 d = getMatrix() * glm::vec3(-1, -1, 1);
+	glm::vec2 AM = glm::vec2(a.x - p.x, a.y - p.y);
+	glm::vec2 AB = glm::vec2(a.x - b.x, a.y - b.y);
+	glm::vec2 AD = glm::vec2(a.x - d.x, a.y - d.y);
+	float AMAB = AM.x * AB.x + AM.y * AB.y;
+	float AMAD = AM.x * AD.x + AM.y * AD.y;
+	float ABAB = AB.x * AB.x + AB.y * AB.y;
+	float ADAD = AD.x * AD.x + AD.y * AD.y;
+	if (AMAB < 0 || AMAB > ABAB) return false;
+	if (AMAD < 0 || AMAD > ADAD) return false;
+	return true;*/
+
+	float c = std::cos(rotation);
+	float s = std::sin(rotation);
+	float e = c*c + s*s, t;
+	p -= position;
+	t = origin.x * e + c * p.x + s * p.y;
+	if (t < 0 || t > size.x * e) return false;
+	t = (size.y - origin.y) * e + c * (origin.x - origin.x * s - p.y) + s * p.x;
+	if (t < 0 || t > size.y * e) return false;
+	return true;
+}
+
 const glm::mat3& Transform2D::getMatrix() const
 {
 	/*if (valid) return matrix;
