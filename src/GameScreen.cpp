@@ -30,7 +30,7 @@ void GameScreen::onInit()
 	// Set GUI
 	glm::vec2 size = window.getSize();
 	cameraGUI.setSize(size);
-	cameraGUI.setCenter(size / glm::vec2(2, 2));
+	cameraGUI.setCenter(size * 0.5f);
 	cameraGUI.setRotation(0);
 	gui.load(resources.ambient.get(), resources.quad.get(), 1, 2);
 	
@@ -45,37 +45,27 @@ void GameScreen::onInit()
 	
 	// Initialization
 	timer.restart();
-	for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) {
-		button[x][y].setSize(190, 49);
-		button[x][y].setButtonStyle(static_cast<Button::Style>(y));
-		button[x][y].setPosition(200 + x * 250, 200 + y * 100);
-		button[x][y].setRotation(rand() % 800 / 400.f - 1.f);
-		button[x][y].setText("Start game");
-		button[x][y].setTextSize(10);
-		if (x == 0) button[x][y].setButtonColor(glm::vec4(0.5, 0.5, 1.0, 1));
-		if (x == 1) button[x][y].setButtonColor(glm::vec4(0.5, 0.8, 0.5, 1));
-		if (x == 2) {
-			button[x][y].setButtonColor(glm::vec4(1.0, 0.5, 0.5, 1));
-			button[x][y].setOrigin(button[x][y].getSize() * 0.5f);
-		}
-	}
+	
+	// Button
+	button.setSize(190, 49);
+	button.setPosition(size * 0.5f);
+	button.setOrigin(button.getSize() * 0.5f);
+	button.setText("End game");
+	button.setTextSize(12);
+	button.setButtonColor(glm::vec4(0.5, 0.5, 1.0, 1));
 }
 
 void GameScreen::onPress(glm::vec2 pos)
 {
-	pos = cameraGUI.toWorld(pos);
-	for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) {
-		if (button[x][y].isInside(pos)) {
-			button[x][y].setPressed(true);
-		}
-	}
+	glm::vec2 world = cameraGUI.toWorld(pos);
+	if (button.isInside(world)) button.setPressed(true);
 }
 
-void GameScreen::onRelease(glm::vec2 pos)
+void GameScreen::onRelease(glm::vec2)
 {
-	(void) pos;
-	for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) {
-		button[x][y].setPressed(false);
+	if (button.isPressed()) {
+		button.setPressed(false);
+		quit();
 	}
 }
 
@@ -90,9 +80,6 @@ void GameScreen::onRender()
 	textFPS.setText(std::string("FPS: ") + timer.fpsString(3));
 	gui->render(cameraGUI, textFPS);
 	
-	// Render buttons
-	for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) {
-		gui->render(cameraGUI, button[x][y]);
-	}
-	
+	// Render button
+	gui->render(cameraGUI, button);
 }

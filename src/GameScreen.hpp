@@ -23,11 +23,13 @@ public:
 private:
 	
 	Resources& resources;
+	
 	Timer timer;
+	Label textFPS;
+	
 	Camera2D cameraGUI;
 	Resource<GuiRenderer> gui;
-	Label textFPS;
-	Button button[3][3];
+	Button button;
 	
 };
 
