@@ -26,9 +26,14 @@ Button::Button(
 , pressed(pressed)
 {}
 
-void Button::setStyle(Style style)
+void Button::setButtonStyle(Style style)
 {
 	this->style = style;
+}
+
+void Button::setButtonColor(const glm::vec4& color)
+{
+	this->color = color;
 }
 
 void Button::setPressed(bool pressed)
@@ -36,14 +41,14 @@ void Button::setPressed(bool pressed)
 	this->pressed = pressed;
 }
 
-void Button::setColor(const glm::vec4& color)
-{
-	this->color = color;
-}
-
-Button::Style Button::getStyle() const
+Button::Style Button::getButtonStyle() const
 {
 	return style;
+}
+
+glm::vec4 Button::getButtonColor() const
+{
+	return color;
 }
 
 bool Button::isPressed() const
@@ -51,16 +56,11 @@ bool Button::isPressed() const
 	return pressed;
 }
 
-glm::vec4 Button::getColor() const
-{
-	return color;
-}
-
 void Button::render(
 	const Camera2D&      camera,
 	const AmbientRender& ambient,
 	const Quad&          quad,
-	const unsigned&      texture
+	const unsigned&      gui
 ) const {
 	
 	std::size_t s = static_cast<std::size_t>(style);
@@ -84,7 +84,7 @@ void Button::render(
 	ambient.render(
 		camera,
 		quad,
-		texture,
+		gui,
 		object,
 		color,
 		glm::vec4(

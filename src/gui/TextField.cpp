@@ -134,23 +134,23 @@ void TextField::setText(const std::string& text)
 	}
 }
 
-void TextField::setColor(const glm::vec4& color)
+void TextField::setTextColor(const glm::vec4& color)
 {
 	this->color = color;
 }
 
-void TextField::setAlign(Align x, Align y)
+void TextField::setTextAlign(Align x, Align y)
 {
 	this->alignX = x;
 	this->alignY = y;
 }
 
-void TextField::setAlignX(Align x)
+void TextField::setTextAlignX(Align x)
 {
 	this->alignX = x;
 }
 
-void TextField::setAlignY(Align y)
+void TextField::setTextAlignY(Align y)
 {
 	this->alignY = y;
 }
@@ -160,17 +160,17 @@ const std::string& TextField::getText() const
 	return text;
 }
 
-glm::vec4 TextField::getColor() const
+glm::vec4 TextField::getTextColor() const
 {
 	return color;
 }
 
-TextField::Align TextField::getAlignX() const
+TextField::Align TextField::getTextAlignX() const
 {
 	return alignX;
 }
 
-TextField::Align TextField::getAlignY() const
+TextField::Align TextField::getTextAlignY() const
 {
 	return alignY;
 }
@@ -179,7 +179,7 @@ void TextField::render(
 	const Camera2D&      camera,
 	const AmbientRender& ambient,
 	const Quad&          quad,
-	const unsigned&      texture
+	const unsigned&      font
 ) const {
 	
 	const float width  = this->width;
@@ -207,7 +207,7 @@ void TextField::render(
 		ambient.render(
 			camera,
 			quad,
-			texture,
+			font,
 			letter,
 			color,
 			glm::vec4(

@@ -22,22 +22,22 @@ namespace gui {
 			Align alignY = MID
 		);
 		
-		void setText  (const std::string& text);
-		void setColor (const glm::vec4& color);
-		void setAlign (Align x, Align y);
-		void setAlignX(Align x);
-		void setAlignY(Align y);
+		void setText      (const std::string& text);
+		void setTextColor (const glm::vec4& color);
+		void setTextAlign (Align x, Align y);
+		void setTextAlignX(Align x);
+		void setTextAlignY(Align y);
 		
 		const std::string& getText() const;
-		glm::vec4 getColor() const;
-		Align getAlignX() const;
-		Align getAlignY() const;
+		glm::vec4 getTextColor() const;
+		Align getTextAlignX() const;
+		Align getTextAlignY() const;
 		
 		void render(
 			const Camera2D&      camera,
 			const AmbientRender& ambient,
 			const Quad&          quad,
-			const unsigned&      texture
+			const unsigned&      font
 		) const;
 		
 	private:

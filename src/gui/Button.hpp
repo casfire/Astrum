@@ -20,19 +20,19 @@ namespace gui {
 			bool pressed           = false
 		);
 		
-		void setStyle  (Style style);
-		void setPressed(bool pressed);
-		void setColor  (const glm::vec4& color);
+		void setButtonStyle(Style style);
+		void setButtonColor(const glm::vec4& color);
+		void setPressed    (bool pressed);
 		
-		Style getStyle() const;
+		Style getButtonStyle() const;
+		glm::vec4 getButtonColor() const;
 		bool isPressed() const;
-		glm::vec4 getColor() const;
 		
 		void render(
 			const Camera2D&      camera,
 			const AmbientRender& ambient,
 			const Quad&          quad,
-			const unsigned&      texture
+			const unsigned&      gui
 		) const;
 		
 	private:
