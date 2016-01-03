@@ -22,30 +22,29 @@ void GameScreen::onInit()
 		BlendState::ADD
 	).enable();
 	
-	// Set GUI camera
+	// Texture bindings
+	resources.white->bind(0);
+	resources.font->bind(1);
+	resources.gui->bind(2);
+	
+	// Set GUI
 	glm::vec2 size = window.getSize();
 	cameraGUI.setSize(size);
 	cameraGUI.setCenter(size / glm::vec2(2, 2));
 	cameraGUI.setRotation(0);
+	gui.load(resources.ambient.get(), resources.quad.get(), 1, 2);
 	
-	// Set FPS 
+	// Set FPS counter
+	window.setVsync(false);
 	timer.setSmoothing(0.99);
 	textFPS.setPosition(4, size.y - 18);
 	textFPS.setSize(size.x, 16);
 	textFPS.setTextSize(textFPS.getSizeY());
 	textFPS.setTextColor(glm::vec4(1, .1, .2, 1));
 	textFPS.setTextAlignX(Label::ALIGN_MIN);
-	window.setVsync(false);
-	
-	// Texture bindings
-	resources.white->bind(0);
-	resources.font->bind(1);
-	resources.gui->bind(2);
 	
 	// Initialization
 	timer.restart();
-	
-	// Buttons
 	for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) {
 		button[x][y].setSize(190, 49);
 		button[x][y].setButtonStyle(static_cast<Button::Style>(y));
@@ -59,9 +58,9 @@ void GameScreen::onInit()
 
 void GameScreen::onPress(glm::vec2 pos)
 {
-	glm::vec2 gui = cameraGUI.toWorld(pos);
+	pos = cameraGUI.toWorld(pos);
 	for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) {
-		if (button[x][y].isInside(gui)) {
+		if (button[x][y].isInside(pos)) {
 			button[x][y].setPressed(true);
 		}
 	}
@@ -84,21 +83,11 @@ void GameScreen::onRender()
 	
 	// Render FPS counter
 	textFPS.setText(std::string("FPS: ") + timer.fpsString(3));
-	textFPS.render(
-		cameraGUI,
-		resources.ambient.get(),
-		resources.quad.get(),
-		1
-	);
+	gui->render(cameraGUI, textFPS);
 	
 	// Render buttons
 	for (int x = 0; x < 3; x++) for (int y = 0; y < 3; y++) {
-		button[x][y].render(
-			cameraGUI,
-			resources.ambient.get(),
-			resources.quad.get(),
-			2
-		);
+		gui->render(cameraGUI, button[x][y]);
 	}
 	
 }
