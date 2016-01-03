@@ -54,7 +54,10 @@ void GameScreen::onInit()
 		button[x][y].setTextSize(10);
 		if (x == 0) button[x][y].setButtonColor(glm::vec4(0.5, 0.5, 1.0, 1));
 		if (x == 1) button[x][y].setButtonColor(glm::vec4(0.5, 0.8, 0.5, 1));
-		if (x == 2) button[x][y].setButtonColor(glm::vec4(1.0, 0.5, 0.5, 1));
+		if (x == 2) {
+			button[x][y].setButtonColor(glm::vec4(1.0, 0.5, 0.5, 1));
+			button[x][y].setOrigin(button[x][y].getSize() * 0.5f);
+		}
 	}
 }
 

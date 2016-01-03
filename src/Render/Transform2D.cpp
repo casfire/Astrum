@@ -237,7 +237,7 @@ bool Transform2D::isInside(glm::vec2 point) const
 	point -= position;
 	t = origin.x * e + c * point.x + s * point.y;
 	if (t < 0 || t > size.x * e) return false;
-	t = (size.y - origin.y) * e + c * (origin.x - origin.x * s - point.y) + s * point.x;
+	t = e * (size.y - origin.y) - c * point.y + s * point.x;
 	if (t < 0 || t > size.y * e) return false;
 	return true;
 }
