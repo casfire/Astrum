@@ -113,25 +113,23 @@ static Glyph glyphs[96] = {
 
 Label::Label(
 	const std::string& text,
+	const float&       size,
 	const glm::vec4&   color,
 	const Align&       alignX,
 	const Align&       alignY
 )
-: color(color)
-, alignX(alignX)
-, alignY(alignY)
-{
-	setText(text);
-}
+: text(text)
+, color(color)
+, align(glm::vec2(
+	static_cast<int>(alignX) / 2.f,
+	static_cast<int>(alignY) / 2.f
+  ))
+, size(size)
+{}
 
 void Label::setText(const std::string& text)
 {
 	this->text = text;
-	this->width = 0;
-	for (char c : text) {
-		std::size_t i = (c < 32) ? ('?' - 32) : (c - 32);
-		this->width += glyphs[i].advance;
-	}
 }
 
 void Label::setTextColor(const glm::vec4& color)
@@ -139,20 +137,25 @@ void Label::setTextColor(const glm::vec4& color)
 	this->color = color;
 }
 
+void Label::setTextSize(float size)
+{
+	this->size = size;
+}
+
 void Label::setTextAlign(Align x, Align y)
 {
-	this->alignX = x;
-	this->alignY = y;
+	this->align.x = static_cast<int>(x) / 2.f;
+	this->align.y = static_cast<int>(y) / 2.f;
 }
 
 void Label::setTextAlignX(Align x)
 {
-	this->alignX = x;
+	this->align.x = static_cast<int>(x) / 2.f;
 }
 
 void Label::setTextAlignY(Align y)
 {
-	this->alignY = y;
+	this->align.y = static_cast<int>(y) / 2.f;
 }
 
 const std::string& Label::getText() const
@@ -165,14 +168,9 @@ glm::vec4 Label::getTextColor() const
 	return color;
 }
 
-Label::Align Label::getTextAlignX() const
+float Label::getTextSize() const
 {
-	return alignX;
-}
-
-Label::Align Label::getTextAlignY() const
-{
-	return alignY;
+	return size;
 }
 
 void Label::render(
@@ -182,19 +180,14 @@ void Label::render(
 	const unsigned&      font
 ) const {
 	
-	const float width  = this->width;
-	const float height = GlyphBase;
+	float width = 0;
+	for (char c : text) {
+		width += glyphs[(c < 32) ? ('?' - 32) : (c - 32)].advance;
+	}
 	
 	Transform2D letter(*this);
-	glm::vec2 pos   = glm::vec2(0);
-	glm::vec2 scale = getSize() / glm::vec2(width, height);
-	if (scale.x > scale.y) {
-		scale.x = scale.y;
-		pos.x = (getSize().x - width * scale.x) * static_cast<int>(alignX) / 2.f;
-	} else {
-		scale.y = scale.x;
-		pos.y = (getSize().y - height * scale.y) * static_cast<int>(alignY) / 2.f;
-	}
+	float scale = size / GlyphBase;
+	glm::vec2 pos = (getSize() - glm::vec2(width, GlyphBase) * scale) * align;
 	
 	for (char c : text) {
 		
@@ -202,7 +195,7 @@ void Label::render(
 		
 		letter.setSize(glm::vec2(g.w, g.h) * scale);
 		letter.setOrigin(getOrigin() - pos - glm::vec2(g.xOff, g.yOff) * scale);
-		pos.x += g.advance * scale.x;
+		pos.x += g.advance * scale;
 		
 		ambient.render(
 			camera,

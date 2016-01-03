@@ -17,6 +17,7 @@ namespace gui {
 		
 		Label(
 			const std::string& text   = "",
+			const float&       size   = 45,
 			const glm::vec4&   color  = glm::vec4(1),
 			const Align&       alignX = ALIGN_MID,
 			const Align&       alignY = ALIGN_MID
@@ -24,14 +25,14 @@ namespace gui {
 		
 		void setText      (const std::string& text);
 		void setTextColor (const glm::vec4& color);
+		void setTextSize  (float size);
 		void setTextAlign (Align x, Align y);
 		void setTextAlignX(Align x);
 		void setTextAlignY(Align y);
 		
 		const std::string& getText() const;
 		glm::vec4 getTextColor() const;
-		Align getTextAlignX() const;
-		Align getTextAlignY() const;
+		float getTextSize() const;
 		
 		void render(
 			const Camera2D&      camera,
@@ -44,9 +45,8 @@ namespace gui {
 		
 		std::string text;
 		glm::vec4 color;
-		float width;
-		Align alignX;
-		Align alignY;
+		glm::vec2 align;
+		float size;
 		
 	};
 	

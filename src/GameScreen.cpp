@@ -30,9 +30,10 @@ void GameScreen::onInit()
 	
 	// Set FPS 
 	timer.setSmoothing(0.99);
-	textFPS.setTextColor(glm::vec4(1, .1, .2, 1));
 	textFPS.setPosition(4, size.y - 18);
 	textFPS.setSize(size.x, 16);
+	textFPS.setTextSize(textFPS.getSizeY());
+	textFPS.setTextColor(glm::vec4(1, .1, .2, 1));
 	textFPS.setTextAlignX(Label::ALIGN_MIN);
 	window.setVsync(false);
 	
