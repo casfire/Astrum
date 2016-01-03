@@ -7,7 +7,7 @@
 
 #include "Resources.hpp"
 #include "SplashScreen.hpp"
-#include "GameScreen.hpp"
+#include "MenuScreen.hpp"
 
 int main(int, char**) {
 	
@@ -17,7 +17,7 @@ int main(int, char**) {
 		Resources resources;
 		
 		SplashScreen(window, resources).run();
-		GameScreen(window, resources).run();
+		MenuScreen(window, resources).run();
 		
 		return 0;
 		
