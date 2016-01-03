@@ -1,15 +1,15 @@
-#ifndef _ABOUT_SCREEN_
-#define _ABOUT_SCREEN_
+#ifndef _SETTINGS_SCREEN_
+#define _SETTINGS_SCREEN_
 
-#include "GL/GL.hpp"
-#include "System/System.hpp"
-#include "Resources.hpp"
-#include "gui/gui.hpp"
+#include "../GL/GL.hpp"
+#include "../System/System.hpp"
+#include "../Resources.hpp"
+#include "../gui/gui.hpp"
 
-class AboutScreen : public Screen {
+class SettingsScreen : public Screen {
 public:
 	
-	AboutScreen(
+	SettingsScreen(
 		const Window& window,
 		Resources& resources
 	);

@@ -1,6 +1,7 @@
 #include "MenuScreen.hpp"
-#include "GameScreen.hpp"
 #include "AboutScreen.hpp"
+#include "SettingsScreen.hpp"
+#include "../GameScreen.hpp"
 
 MenuScreen::MenuScreen(
 	const Window& window,
@@ -102,7 +103,8 @@ void MenuScreen::onRelease(glm::vec2 pos)
 	}
 	
 	if (settings.isPressed() && settings.isInside(pos)) {
-		// TODO
+		SettingsScreen(window, resources).run();
+		onInit();
 	}
 	
 	if (about.isPressed() && about.isInside(pos)) {

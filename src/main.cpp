@@ -7,7 +7,7 @@
 
 #include "Resources.hpp"
 #include "SplashScreen.hpp"
-#include "MenuScreen.hpp"
+#include "menu/MenuScreen.hpp"
 
 int main(int, char**) {
 	

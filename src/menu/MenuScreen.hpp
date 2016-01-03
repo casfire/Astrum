@@ -1,10 +1,10 @@
 #ifndef _MENU_SCREEN_
 #define _MENU_SCREEN_
 
-#include "GL/GL.hpp"
-#include "System/System.hpp"
-#include "Resources.hpp"
-#include "gui/gui.hpp"
+#include "../GL/GL.hpp"
+#include "../System/System.hpp"
+#include "../Resources.hpp"
+#include "../gui/gui.hpp"
 
 class MenuScreen : public Screen {
 public:
