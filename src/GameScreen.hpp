@@ -24,12 +24,14 @@ private:
 	
 	Resources& resources;
 	
-	Timer timer;
-	Label textFPS;
+	Timer FpsTimer;
+	Label FpsText;
 	
 	Camera2D cameraGUI;
 	Resource<GuiRenderer> gui;
+	
 	Button button;
+	Timer elapsed;
 	
 };
 
