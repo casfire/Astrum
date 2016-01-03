@@ -27,7 +27,7 @@ private:
 	Timer timer;
 	
 	Camera2D cameraGUI;
-	TextField textFPS;
+	Label textFPS;
 	
 	Button button[3][3];
 	

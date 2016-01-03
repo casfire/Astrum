@@ -33,7 +33,7 @@ void GameScreen::onInit()
 	textFPS.setTextColor(glm::vec4(1, .1, .2, 1));
 	textFPS.setPosition(4, size.y - 18);
 	textFPS.setSize(size.x, 16);
-	textFPS.setTextAlignX(TextField::MIN);
+	textFPS.setTextAlignX(Label::ALIGN_MIN);
 	window.setVsync(false);
 	
 	// Texture bindings

@@ -1,4 +1,4 @@
-#include "TextField.hpp"
+#include "Label.hpp"
 
 using namespace gui;
 
@@ -111,11 +111,11 @@ static Glyph glyphs[96] = {
 	{423, 468, 45, 18, 0, 9, 60},
 };
 
-TextField::TextField(
+Label::Label(
 	const std::string& text,
-	const glm::vec4& color,
-	Align alignX,
-	Align alignY
+	const glm::vec4&   color,
+	const Align&       alignX,
+	const Align&       alignY
 )
 : color(color)
 , alignX(alignX)
@@ -124,7 +124,7 @@ TextField::TextField(
 	setText(text);
 }
 
-void TextField::setText(const std::string& text)
+void Label::setText(const std::string& text)
 {
 	this->text = text;
 	this->width = 0;
@@ -134,48 +134,48 @@ void TextField::setText(const std::string& text)
 	}
 }
 
-void TextField::setTextColor(const glm::vec4& color)
+void Label::setTextColor(const glm::vec4& color)
 {
 	this->color = color;
 }
 
-void TextField::setTextAlign(Align x, Align y)
+void Label::setTextAlign(Align x, Align y)
 {
 	this->alignX = x;
 	this->alignY = y;
 }
 
-void TextField::setTextAlignX(Align x)
+void Label::setTextAlignX(Align x)
 {
 	this->alignX = x;
 }
 
-void TextField::setTextAlignY(Align y)
+void Label::setTextAlignY(Align y)
 {
 	this->alignY = y;
 }
 
-const std::string& TextField::getText() const
+const std::string& Label::getText() const
 {
 	return text;
 }
 
-glm::vec4 TextField::getTextColor() const
+glm::vec4 Label::getTextColor() const
 {
 	return color;
 }
 
-TextField::Align TextField::getTextAlignX() const
+Label::Align Label::getTextAlignX() const
 {
 	return alignX;
 }
 
-TextField::Align TextField::getTextAlignY() const
+Label::Align Label::getTextAlignY() const
 {
 	return alignY;
 }
 
-void TextField::render(
+void Label::render(
 	const Camera2D&      camera,
 	const AmbientRender& ambient,
 	const Quad&          quad,

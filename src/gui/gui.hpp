@@ -1,7 +1,7 @@
 #ifndef _GUI_
 #define _GUI_
 
-#include "TextField.hpp"
+#include "Label.hpp"
 #include "Button.hpp"
 
 using namespace gui;

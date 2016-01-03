@@ -1,25 +1,25 @@
-#ifndef _TEXTFIELD_
-#define _TEXTFIELD_
+#ifndef _LABEL_
+#define _LABEL_
 
 #include "../Render/Render.hpp"
 #include <string>
 
 namespace gui {
 	
-	class TextField : public Transform2D {
+	class Label : public Transform2D {
 	public:
 		
 		enum Align {
-			MIN = 0,
-			MID = 1,
-			MAX = 2,
+			ALIGN_MIN = 0,
+			ALIGN_MID = 1,
+			ALIGN_MAX = 2,
 		};
 		
-		TextField(
-			const std::string& text = "",
-			const glm::vec4& color = glm::vec4(1),
-			Align alignX = MID,
-			Align alignY = MID
+		Label(
+			const std::string& text   = "",
+			const glm::vec4&   color  = glm::vec4(1),
+			const Align&       alignX = ALIGN_MID,
+			const Align&       alignY = ALIGN_MID
 		);
 		
 		void setText      (const std::string& text);
