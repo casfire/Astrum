@@ -50,6 +50,8 @@ void GameScreen::onInit()
 		button[x][y].setButtonStyle(static_cast<Button::Style>(y));
 		button[x][y].setPosition(200 + x * 250, 200 + y * 100);
 		button[x][y].setRotation(rand() % 800 / 400.f - 1.f);
+		button[x][y].setText("Start game");
+		button[x][y].setTextSize(10);
 		if (x == 0) button[x][y].setButtonColor(glm::vec4(0.5, 0.5, 1.0, 1));
 		if (x == 1) button[x][y].setButtonColor(glm::vec4(0.5, 0.8, 0.5, 1));
 		if (x == 2) button[x][y].setButtonColor(glm::vec4(1.0, 0.5, 0.5, 1));

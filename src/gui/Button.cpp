@@ -17,11 +17,13 @@ static glm::ivec4 BReleased[] = {
 };
 
 Button::Button(
-	const glm::vec4& color,
-	Style style,
-	bool pressed
+	const std::string& text,
+	const glm::vec4&   color,
+	const Style&       style,
+	const bool&        pressed
 )
-: color(color)
+: Label(text)
+, color(color)
 , style(style)
 , pressed(pressed)
 {}
@@ -60,7 +62,8 @@ void Button::render(
 	const Camera2D&      camera,
 	const AmbientRender& ambient,
 	const Quad&          quad,
-	const unsigned&      gui
+	const unsigned&      gui,
+	const unsigned&      font
 ) const {
 	
 	std::size_t s = static_cast<std::size_t>(style);
@@ -94,5 +97,13 @@ void Button::render(
 			(irect.y + irect.w) / GUITextureSize.y
 		)
 	);
+	
+	if (pressed) {
+		Label copy(*this);
+		copy.setPosition(object.getPosition());
+		copy.render(camera, ambient, quad, font);
+	} else {
+		Label::render(camera, ambient, quad, font);
+	}
 	
 }

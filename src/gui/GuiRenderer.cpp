@@ -44,6 +44,7 @@ void GuiRenderer::render(
 		camera,
 		ambient,
 		quad,
-		gui
+		gui,
+		font
 	);
 }
