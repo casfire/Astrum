@@ -8,8 +8,6 @@
 #include "State/ScissorState.hpp"
 #include "State/ClearState.hpp"
 
-#include "Exception.hpp"
-
 #include "Texture.hpp"
 #include "StencilBuffer.hpp"
 #include "DepthBuffer.hpp"
