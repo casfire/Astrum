@@ -1,10 +1,9 @@
 #include "Config.hpp"
-#include "../GL/Exception.hpp"
+#include "Exception.hpp"
 #include <fstream>
 #include <cstddef>
 
 using namespace System;
-using namespace GL;
 
 void replaceAll(std::string& str, const std::string& from, const std::string& to) {
 	for (std::size_t s = 0; (s = str.find(from, s)) != std::string::npos; s += to.length())
@@ -14,7 +13,7 @@ void replaceAll(std::string& str, const std::string& from, const std::string& to
 void Config::load(const std::string& file)
 {
 	std::ifstream stream(file);
-	if (!stream.good()) throw GL_EXCEPTION(std::string("Failed to open config ") + file);
+	if (!stream.good()) throw Exception(std::string("Failed to open config ") + file);
 	config.clear();
 	for (std::string line; std::getline(stream, line);) {
 		std::size_t i = 1;
@@ -35,7 +34,7 @@ void Config::load(const std::string& file)
 void Config::save(const std::string& file) const
 {
 	std::ofstream stream(file);
-	if (!stream.good()) throw GL_EXCEPTION(std::string("Failed to open config ") + file);
+	if (!stream.good()) throw Exception(std::string("Failed to open config ") + file);
 	for (const auto& p : config) {
 		std::string key = p.first;
 		std::string obj = p.second.str();
@@ -48,7 +47,7 @@ void Config::save(const std::string& file) const
 		replaceAll(obj, "\n", "\\n" );
 		stream << key << "=" << obj << std::endl;
 	}
-	if (!stream.good()) throw GL_EXCEPTION(std::string("Failed to write config ") + file);
+	if (!stream.good()) throw Exception(std::string("Failed to write config ") + file);
 }
 
 void Config::clear()

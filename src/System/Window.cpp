@@ -1,6 +1,6 @@
 #include "Window.hpp"
+#include "Exception.hpp"
 #include "../GL/gles2.hpp"
-#include "../GL/Exception.hpp"
 #include "../GL/stb_image.h"
 
 using namespace System;
@@ -12,7 +12,7 @@ Window::Window(
 	int samples
 ) {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		throw GL_EXCEPTION(SDL_GetError());
+		throw Exception(SDL_GetError());
 	}
 	
 	SDL_GL_SetAttribute(
@@ -58,10 +58,10 @@ Window::Window(
 		);
 	}
 	
-	if (!window) throw GL_EXCEPTION(SDL_GetError());
+	if (!window) throw Exception(SDL_GetError());
 	SDL_GetWindowSize(window, &w, &h);
 	context = SDL_GL_CreateContext(window);
-	if (!context) throw GL_EXCEPTION(SDL_GetError());
+	if (!context) throw Exception(SDL_GetError());
 	SDL_GL_MakeCurrent(window, context);
 	glLoadFunctions(SDL_GL_GetProcAddress);
 	
@@ -81,7 +81,7 @@ Window::Window(
 	);
 	if (icon == nullptr) {
 		stbi_image_free(data);
-		throw GL_EXCEPTION(SDL_GetError());
+		throw Exception(SDL_GetError());
 	}
 	SDL_SetWindowIcon(window, icon);
 	SDL_FreeSurface(icon);
