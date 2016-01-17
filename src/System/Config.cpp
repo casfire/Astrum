@@ -13,11 +13,10 @@ void replaceAll(std::string& str, const std::string& from, const std::string& to
 
 void Config::load(const std::string& file)
 {
-	std::map<std::string, std::stringstream> config;
 	std::ifstream stream(file);
-	std::string line;
 	if (!stream.good()) throw GL_EXCEPTION(std::string("Failed to open config ") + file);
-	while (std::getline(stream, line)) {
+	config.clear();
+	for (std::string line; std::getline(stream, line);) {
 		std::size_t i = 1;
 		for (;i < line.length(); i++) if (line[i] == '=' && line[i-1] != '\\') break;
 		if (i >= line.length()) continue;
@@ -31,8 +30,6 @@ void Config::load(const std::string& file)
 		replaceAll(obj, "\\\\", "\\");
 		config[key] = std::stringstream(obj);
 	}
-	if (!stream.good()) throw GL_EXCEPTION(std::string("Failed to write config ") + file);
-	this->config = std::move(config);
 }
 
 void Config::save(const std::string& file) const
