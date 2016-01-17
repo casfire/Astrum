@@ -39,6 +39,9 @@ namespace GL {
 		
 		~Texture();
 		
+		void setFilter(Filter filter);
+		void setEdge  (Edge edge);
+		
 		void bind(unsigned unit) const;
 		static unsigned MaxUnits();
 		

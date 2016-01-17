@@ -127,6 +127,28 @@ Texture::~Texture()
 	glDeleteTextures(1, &ID);
 }
 
+void Texture::setFilter(Filter filter)
+{
+	std::size_t f = static_cast<std::size_t>(filter);
+	GLint previous = 0;
+	glGetIntegerv(GL_TEXTURE_BINDING_2D, &previous);
+	glBindTexture(GL_TEXTURE_2D, ID);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter[f]);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter[f]);
+	if (f > 2) glGenerateMipmap(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, previous);
+}
+
+void Texture::setEdge(Edge edge)
+{
+	std::size_t e = static_cast<std::size_t>(edge);
+	GLint previous = 0;
+	glGetIntegerv(GL_TEXTURE_BINDING_2D, &previous);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap[e]);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap[e]);
+	glBindTexture(GL_TEXTURE_2D, previous);
+}
+
 void Texture::bind(unsigned unit) const
 {
 	glActiveTexture(GL_TEXTURE0 + unit);
