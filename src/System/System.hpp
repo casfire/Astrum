@@ -5,6 +5,7 @@
 #include "Timer.hpp"
 #include "Window.hpp"
 #include "Screen.hpp"
+#include "Config.hpp"
 
 using namespace System;
 
