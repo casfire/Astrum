@@ -1,7 +1,7 @@
 TARGET=main
-CFLAGS=-Wall -Wextra -O3 -flto
-PFLAGS=-Wall -Wextra -O3 -flto -std=c++11
-LFLAGS=-O3 -flto -static -lmingw32 -lSDL2main -lSDL2 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion -luuid
+CFLAGS=-Wall -Wextra -O3
+PFLAGS=-Wall -Wextra -O3 -std=c++11
+LFLAGS=-static -lmingw32 -lSDL2main -lSDL2 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion -luuid
 
 FILES=$(wildcard src/*.cpp) $(wildcard src/*.c)
 FILES+=$(wildcard src/*/*.cpp) $(wildcard src/*/*.c)
